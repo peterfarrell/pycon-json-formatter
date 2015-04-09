@@ -101,7 +101,7 @@ def run(group):
         sessions = build_sessions(data, SESSION_GROUPS[g][0], SESSION_GROUPS[g][1])
         html = make_html(sessions)
 
-        with open("schedule_%s.html" % g, "wb") as f:
+        with open("./schedules/schedule_%s.html" % g, "wb") as f:
             f.write(html.encode('utf8'))
 
 
