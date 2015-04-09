@@ -1,9 +1,9 @@
 <html>
-    <title>PyCon Room Sheets</title>
+    <title>PyCon 2015 - Room Sheets</title>
 </html>
 <body>
 {% for room in sessions %}
-    <h1>{{ room }}</h1>
+    <h1>PyCon 2015 - Room {{ room }}</h1>
     {% for s in sessions[room] %}
         <h3>{{ s.name}}</h3>
         <h4>
@@ -14,7 +14,7 @@
         <h4>{{ s.start|datetime }} -- {{ s.end|datetime }}</h4>
         <hr/>
     {% endfor %}
-    <h4>Checklist:</h4>
+    <h4>Session Chair Checklist:</h4>
     <ul>
         <li>Water for speaker(s)</li>
         <li>Have your speaker(s) decide on Q&amp;A options</li>
