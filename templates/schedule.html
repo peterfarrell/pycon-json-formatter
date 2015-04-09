@@ -3,7 +3,7 @@
 </html>
 <body>
 {% for room in sessions %}
-    <h1>PyCon 2015 - Room {{ room }}</h1>
+    <h1>PyCon 2015 - {{ room }}</h1>
     {% for s in sessions[room] %}
         <h3>{{ s.name}}</h3>
         <h4>
