@@ -1,0 +1,27 @@
+<html>
+    <title>PyCon Room Sheets</title>
+</html>
+<body>
+{% for room in sessions %}
+    <h1>{{ room }}</h1>
+    {% for s in sessions[room] %}
+        <h3>{{ s.name}}</h3>
+        <h4>
+            {% for a in s.authors %}
+                {{ a }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        </h4>
+        <h4>{{ s.start|datetime }} -- {{ s.end|datetime }}</h4>
+        <hr/>
+    {% endfor %}
+    <h4>Checklist:</h4>
+    <ul>
+        <li>Water for speaker(s)</li>
+        <li>Ask if there should be a Q&amp;A</li>
+        <li>Ask how to pronounce the speaker(s)</li>
+    </ul>
+    {% if not loop.last %}
+        <p style="page-break-after: always;"></p>
+    {% endif %}
+{% endfor %}
+</body>
