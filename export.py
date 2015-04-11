@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 """PyCon JSON to HTML Exporter
 Usage:
-    ./export.py group <group>
-    ./export.py group 'day1_group1'
-    ./export.py group '__all__'
+    ./export.py <group>
+    ./export.py 'day1_group1'
+    ./export.py '__all__'
 Options:
     -h --help              Show this screen
 """
 
 from datetime import datetime
 import urllib
+import time
 import json
+import os
 
 from babel import dates
 from docopt import docopt
@@ -26,6 +28,8 @@ def format_datetime(value, format='medium'):
         _format = "EEEE, d. MMMM y 'at' HH:mm"
     elif format == 'medium':
         _format = "EE MMM d. HH:mm"
+    elif format == 'time':
+        _format = "HH:mm"
     return dates.format_datetime(convert_date_to_native(value), _format)
 
 
@@ -47,9 +51,46 @@ SESSION_GROUPS = {
 
 
 def parse_json(feed_url=FEED_URL):
+    """
+        {
+            "abstract": "...",
+            "authors": [
+                "Andrew Seier",
+                "\u00c9tienne T\u00e9treault-Pinard",
+                "Marianne Corvellec"
+            ],
+            "conf_key": 26,
+            "conf_url": "https://us.pycon.org/2015/schedule/presentation/317/",
+            "contact": [
+                "andrew@plot.ly",
+                "etienne@plot.ly",
+                "marianne.corvellec@gmail.com"
+            ],
+            "description": "...",
+            "duration": 200,
+            "end": "2015-04-09T12:20:00",
+            "kind": "tutorial",
+            "license": "CC",
+            "name": "Making Beautiful Graphs in Python and Sharing Them",
+            "released": true,
+            "room": "Room 512EA",
+            "start": "2015-04-09T09:00:00",
+            "tags": ""
+        },
+    """
+    cachefile = ".schedule.json"
+    try:
+        if time.time() - os.path.getmtime(cachefile) > 600:
+            raise OSError
+        print "Using schedule cache %s" %(cachefile, )
+        return json.load(open(cachefile))
+    except OSError:
+        pass
     response = urllib.urlopen(feed_url)
-    data = json.loads(response.read())
-    return data
+    data = response.read()
+    with open(cachefile, "w") as f:
+        f.write(data)
+    return json.loads(data)
 
 
 def build_room_list(data):

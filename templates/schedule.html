@@ -1,24 +1,40 @@
 <html>
     <title>PyCon 2015 - Room Sheets</title>
+    <style>
+      h1, h3 {
+        border-bottom: 1px solid #CCC;
+      }
+
+      .notes {
+        margin-top: 50px;
+      }
+      </style>
 </html>
 <body>
 {% for room in sessions %}
-    <h1>PyCon 2015 - {{ room }}</h1>
+    <h1>{{ room }}</h1>
     {% for s in sessions[room] %}
-        <h3>{{ s.name}}</h3>
-        <h4>
+        <h3>
             {% for a in s.authors %}
                 {{ a }}{% if not loop.last %},{% endif %}
             {% endfor %}
-        </h4>
-        <h4>{{ s.start|datetime }} -- {{ s.end|datetime }}</h4>
-        <hr/>
+        </h3>
+        <p>{{ s.name }}</p>
+        <p>{{ s.start|datetime('time') }} &mdash; {{ s.end|datetime('time') }}</p>
     {% endfor %}
-    <h4>Session Chair Checklist:</h4>
+
+    <h3 class="notes">General notes</h3>
+    <h4>Pre-talk checklist:</h4>
     <ul>
-        <li>Water for speaker(s)</li>
-        <li>Have your speaker(s) decide on Q&amp;A options</li>
-        <li>Ask how to pronounce the speaker(s) names for the introduction</li>
+        <li>Q&amp;A Options</li>
+        <li>Speaker name pronunciation</li>
+        <li>Water</li>
+    </ul>
+    <h4>Please radio the greenroom immediately if&hellip;</h4>
+    <ul>
+        <li>Captioning stops working</li>
+        <li>There are A/V issues</li>
+        <li>The talk will be starting or ending late</li>
     </ul>
     {% if not loop.last %}
         <p style="page-break-after: always;"></p>
